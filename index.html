@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Code With Humayra — Humayra Asif | Flutter Developer</title>
+
+<!--
+  Single-file Portfolio (HTML + CSS)
+  - Replace placeholders (search for YOUR_ or placeholder) as instructed in comments.
+  - Save as index.html and open in browser.
+  - Email link uses mailto: so clicking opens the user's email compose (Gmail if set as default).
+-->
+
+<style>
+  /* ====== Reset & Globals ====== */
+  :root{
+    --bg1:#111216;
+    --bg2:#151728;
+    --accent:#66ccff;
+    --accent-2:#ff99cc;
+    --card:#1f2130;
+    --muted:#cfcfe0;
+    --glass: rgba(255,255,255,0.04);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html {scroll-behavior:smooth}
+  body{
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, "Poppins", Arial;
+    background: linear-gradient(180deg,var(--bg1),var(--bg2));
+    color: #eef0f6;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.45;
+  }
+  a{color:var(--accent);text-decoration:none}
+  .container{max-width:1100px;margin:0 auto;padding:24px;}
+
+  /* ====== Top Navigation (fixed) ====== */
+  header{
+    position:fixed;left:0;right:0;top:0;
+    background: linear-gradient(180deg, rgba(9,11,17,0.85), rgba(9,11,17,0.65));
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    z-index:1000;
+  }
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;max-width:1200px;margin:0 auto;padding:14px 22px;}
+  .brand{display:flex;align-items:center;gap:12px}
+  .brand .logo{
+    width:44px;height:44px;border-radius:8px;background:linear-gradient(135deg,var(--accent),var(--accent-2));
+    display:flex;align-items:center;justify-content:center;font-weight:700;color:#051018;box-shadow:0 6px 22px rgba(102,204,255,0.12);
+    font-family: 'Poppins', sans-serif;
+  }
+  .brand .title{font-weight:700;color:#f3f7fb}
+  nav a{margin-left:18px;color:#cfd6e6;font-weight:500;font-size:0.95rem;opacity:0.95}
+  nav a:hover{color:var(--accent-2);transform:translateY(-2px)}
+
+  /* spacer to avoid overlap with fixed header */
+  .header-spacer{height:70px}
+
+  /* ====== HERO / LANDING (row form) ====== */
+  .hero{display:flex;gap:28px;align-items:center;justify-content:space-between;padding:42px 22px}
+  .hero-left{display:flex;align-items:center;gap:20px;flex:0 0 auto}
+  .profile {
+    width:150px;height:150px;border-radius:18px;overflow:hidden;
+    border:3px solid rgba(102,204,255,0.14);
+    background:linear-gradient(180deg,#0b0c10,#141419);
+    box-shadow: 0 10px 30px rgba(2,8,23,0.6);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .profile img{width:100%;height:100%;object-fit:cover;display:block}
+
+  .hero-right{flex:1;min-width:200px}
+  .hero-name{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .hero-name h1{font-size:1.8rem;color:var(--accent);margin:0;letter-spacing:0.3px}
+  .hero-name .subtitle{color:var(--accent-2);font-weight:600;font-size:1.05rem}
+
+  .hero-bio{margin-top:10px;color:var(--muted);max-width:780px}
+  .cta-row{margin-top:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;
+    background:linear-gradient(90deg,var(--accent),#43b3ff);color:#051018;font-weight:700;border:none;cursor:pointer;
+    box-shadow:0 8px 30px rgba(66,179,255,0.08);
+  }
+  .ghost{background:transparent;color:#dfe6f4;border:1px solid rgba(255,255,255,0.04);box-shadow:none;padding:9px 14px;border-radius:10px}
+
+  /* Floating small decorative blob (subtle) */
+  .hero-deco{
+    position:absolute;right:6%;top:10%;
+    width:220px;height:220px;border-radius:50%;
+    background: radial-gradient(circle at 30% 30%, rgba(102,204,255,0.06), transparent 30%),
+                radial-gradient(circle at 70% 70%, rgba(255,153,204,0.05), transparent 25%);
+    filter:blur(12px);pointer-events:none;
+  }
+
+  /* ====== Sections ====== */
+  section{padding:48px 22px}
+  section .section-inner{max-width:1100px;margin:0 auto}
+
+  h2.section-title{font-size:1.4rem;color:var(--accent);margin-bottom:18px}
+  p.lead{color:var(--muted);font-size:1rem}
+
+  /* ====== Services (grid of icons small) ====== */
+  .services-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+  .service-chip{
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:12px;padding:12px;display:flex;align-items:center;gap:10px;
+    justify-content:flex-start;border:1px solid rgba(255,255,255,0.03);
+    transition:transform .28s, box-shadow .28s;
+  }
+  .service-icon{width:38px;height:38px;border-radius:8px;display:grid;place-items:center;background:rgba(255,255,255,0.02)}
+  .service-chip:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(50,90,160,0.12)}
+  .service-name{color:#e9f4ff;font-weight:600;font-size:0.95rem}
+
+  /* ====== Projects: each project as row (mockup left, details right) ====== */
+  .project-row{display:flex;gap:26px;align-items:center;margin-bottom:28px;flex-wrap:wrap;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,0.02)}
+  .mockup{
+    flex:0 0 240px;max-width:240px;background:#06060a;border-radius:26px;padding:10px;border:8px solid rgba(102,204,255,0.09);
+    box-shadow: 0 18px 40px rgba(6,10,20,0.6);
+  }
+  .mockup video,.mockup img{width:100%;height:420px;object-fit:cover;border-radius:16px;display:block}
+  .project-info{flex:1;min-width:260px}
+  .project-title{font-size:1.05rem;color:var(--accent);margin-bottom:6px}
+  .project-desc{color:var(--muted);margin-bottom:10px}
+  .project-meta{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .pill{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,0.03);color:#e6f6ff;font-weight:600;font-size:0.85rem;border:1px solid rgba(255,255,255,0.02)}
+
+  /* alternate layout for even rows */
+  .project-row.even{flex-direction:row-reverse}
+  .project-row.even .mockup{border-color: rgba(255,153,204,0.06)}
+
+  /* subtle fade-in on load with small delays using nth-child */
+  .projects-list .project-row{opacity:0;transform:translateY(8px);animation:fadeUp .65s ease forwards}
+  .projects-list .project-row:nth-child(1){animation-delay:0.08s}
+  .projects-list .project-row:nth-child(2){animation-delay:0.16s}
+  .projects-list .project-row:nth-child(3){animation-delay:0.24s}
+  .projects-list .project-row:nth-child(4){animation-delay:0.32s}
+  @keyframes fadeUp{to{opacity:1;transform:translateY(0)}}
+
+  /* ====== CV & Contact styling ====== */
+  .contact-card{display:inline-block;padding:18px 22px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.02);box-shadow:0 8px 26px rgba(6,10,20,0.6)}
+  .contact-row{display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:center;margin-top:14px}
+  .contact-link{display:inline-flex;gap:10px;align-items:center;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,0.02);color:var(--muted);font-weight:600}
+  .contact-link:hover{color:var(--accent);transform:translateY(-4px)}
+
+  /* ====== Footer ====== */
+  footer{padding:26px 22px;text-align:center;color:rgba(255,255,255,0.55);font-size:0.95rem;border-top:1px solid rgba(255,255,255,0.02)}
+
+  /* responsive tweaks */
+  @media (max-width:900px){
+    .hero{flex-direction:column;align-items:center;text-align:center}
+    .hero-left{margin-bottom:12px}
+    .mockup video,.mockup img{height:360px}
+    .mockup{max-width:220px;flex-basis:220px}
+    nav a{display:none} /* keep nav simple on small screens; you can add hamburger later */
+  }
+
+  /* small nice touch: highlight anchor target section briefly */
+  :target{outline:4px solid rgba(102,204,255,0.06);border-radius:8px;padding:6px}
+</style>
+</head>
+<body>
+
+<!-- Header / Navigation -->
+<header>
+  <div class="nav-inner container">
+    <div class="brand">
+      <!-- Logo (use initials) - you may replace by image if you want -->
+      <div class="logo">CH</div>
+      <div>
+        <div style="font-weight:700;color:#f5f9ff">Code With Humayra</div>
+        <div style="font-size:12px;color:rgba(255,255,255,0.55)">Humayra Asif — Portfolio</div>
+      </div>
+    </div>
+
+    <nav>
+      <!-- smooth scroll to sections -->
+      <a href="#landing">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#projects">Projects</a>
+     <!-- <a href="#cv">CV</a> -->
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<div class="header-spacer"></div>
+
+<!-- HERO / LANDING -->
+<section id="landing" class="container hero" aria-label="Landing">
+  <!-- left row: profile icon -->
+  <div class="hero-left">
+    <div class="profile">
+      <!-- REPLACE the src with your profile JPG (recommended size ~800x800) -->
+      <img src="images/profile1.jpg" alt="Humayra Asif — profile image (replace me)" />
+    </div>
+  </div>
+
+  <!-- right: name, tagline, small bio and CTA -->
+  <div class="hero-right">
+    <div class="hero-name">
+      <h1 style="margin-right:8px">Humayra Asif</h1>
+      <div class="subtitle" style="color:var(--muted);font-weight:600">• Flutter Developer • App Developer</div>
+    </div>
+
+    <!-- typing effect (pure CSS) -->
+    <div style="margin-top:10px">
+      <span style="color:var(--muted)">I build </span>
+      <span class="typing" style="display:inline-block;color:var(--accent-2);font-weight:700;letter-spacing:0.2px">
+        Beautiful UIs • Firebase • API Integration • State Management
+      </span>
+    </div>
+
+    <p class="hero-bio" style="margin-top:14px;color:var(--muted)">
+      I design and build beautiful mobile apps with Flutter, focusing on clean UI, smooth animations, and powerful backend integration using Firebase.
+    </p>
+
+    <div class="cta-row" style="margin-top:16px">
+      <!-- REPLACE CV LINK -->
+      <a class="btn" href="https://drive.google.com/file/d/1_af6yC8x_VqAGLufW3NCSg5QpBCMpuJb/view?usp=sharing" target="_blank" rel="noopener">View CV</a>
+      <a class="ghost" href="#projects" style="color:var(--muted)">See Projects</a>
+    </div>
+  </div>
+
+  <!-- subtle decoration -->
+  <div class="hero-deco" aria-hidden="true"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="container" aria-label="About">
+  <div class="section-inner">
+    <h2 class="section-title">About</h2>
+    <p class="lead">
+      Hello — I am <strong>Humayra Asif</strong>. I specialise in building pixel-perfect Flutter applications with Firebase backend, REST API integrations, and clean, maintainable code. I love turning ideas into working products that people enjoy.
+    </p>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="container" aria-label="Services">
+  <div class="section-inner">
+    <h2 class="section-title">Services</h2>
+
+    <!-- SHOW MANY SERVICES (9-10 small chips with icons + name) -->
+    <div class="services-grid">
+      <!-- Replace icons if you want; icons used are links from icons8 in earlier examples -->
+      <div class="service-chip"><div class="service-icon"><img src="https://img.icons8.com/color/48/flutter.png" alt="" style="width:28px;height:28px"></div><div class="service-name">Flutter & Dart</div></div>
+
+      <div class="service-chip"><div class="service-icon"><img src="https://img.icons8.com/color/48/firebase.png" alt="" style="width:28px;height:28px"></div><div class="service-name">Firebase</div></div>
+
+      <div class="service-chip"><div class="service-icon"><img src="https://img.icons8.com/color/48/github.png" alt="" style="width:28px;height:28px"></div><div class="service-name">Git / Versioning</div></div>
+
+      <div class="service-chip"><div class="service-icon"><img src="https://img.icons8.com/ios-filled/50/api.png" alt="" style="width:28px;height:28px;filter:invert(1)"></div><div class="service-name">API Integration</div></div>
+
+      <div class="service-chip"><div class="service-icon"><img src="https://img.icons8.com/fluency/48/design.png" alt="" style="width:28px;height:28px"></div><div class="service-name">UI/UX Implementation</div></div>
+
+      <div class="service-chip"><div class="service-icon"><img src="https://img.icons8.com/color/48/ios11-share.png" alt="" style="width:28px;height:28px"></div><div class="service-name">Social Login</div></div>
+
+      <div class="service-chip"><div class="service-icon"><img src="https://img.icons8.com/external-kmg-design-flat-kmg-design/48/external-payment-ecommerce-kmg-design-flat-kmg-design.png" alt="" style="width:28px;height:28px;filter:invert(1)"></div><div class="service-name">Payments (Stripe)</div></div>
+
+      <div class="service-chip"><div class="service-icon"><img src="https://img.icons8.com/color/48/ios11-location.png" alt="" style="width:28px;height:28px"></div><div class="service-name">Maps & Geo</div></div>
+
+      <div class="service-chip"><div class="service-icon"><img src="https://img.icons8.com/color/48/cloud.png" alt="" style="width:28px;height:28px"></div><div class="service-name">Backend & Hosting</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS (row layout: mockup left / details right) -->
+<section id="projects" class="container" aria-label="Projects">
+  <div class="section-inner">
+    <h2 class="section-title">Selected Projects</h2>
+
+    <div class="projects-list">
+      <!-- PROJECT 1 -->
+      <div class="project-row">
+        <div class="mockup">
+          <!-- Replace with your mp4 or image (use mp4/webm) -->
+          <video src="wallet-app.mp4" autoplay muted loop playsinline></video>
+        </div>
+        <div class="project-info">
+          <div class="project-title">Wallet App</div>
+          <div class="project-desc">A smart wallet application with balance tracking, transaction history, and quick transfers. Smooth animations and local + cloud sync via Firebase.</div>
+          <div class="project-meta" style="margin-top:10px">
+            <div class="pill">Flutter</div>
+            <div class="pill">Firebase</div>
+            <div class="pill">Payments</div>
+            <div class="pill">Dark UI</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 2 (alternate side for variety) -->
+      <div class="project-row even">
+        <div class="mockup">
+          <video src="food-delivery.mp4" autoplay muted loop playsinline></video>
+        </div>
+        <div class="project-info">
+          <div class="project-title">Food Delivery App</div>
+          <div class="project-desc">Restaurant listings, menu browsing, cart & checkout, live order tracking using Google Maps, and Firebase-powered backend.</div>
+          <div class="project-meta" style="margin-top:10px">
+            <div class="pill">Flutter</div>
+            <div class="pill">Maps</div>
+            <div class="pill">Realtime</div>
+            <div class="pill">Firebase</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 3 -->
+      <div class="project-row">
+        <div class="mockup">
+          <!-- image placeholder -->
+          <img src="project3.jpg" alt="Project 3 screenshot (replace)" />
+        </div>
+        <div class="project-info">
+          <div class="project-title">Chat App</div>
+          <div class="project-desc">Realtime messaging with phone/email auth, profile pictures, and message delivery states. Focus on UX and light animations.</div>
+          <div class="project-meta" style="margin-top:10px">
+            <div class="pill">Flutter</div>
+            <div class="pill">Firebase Auth</div>
+            <div class="pill">Realtime DB</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PROJECT 4 -->
+      <div class="project-row even">
+        <div class="mockup">
+          <img src="project4.jpg" alt="Project 4 screenshot (replace)" />
+        </div>
+        <div class="project-info">
+          <div class="project-title">Project 4</div>
+          <div class="project-desc">Short description about Project 4 — features, role, and outcome. Replace this text with your real details.</div>
+          <div class="project-meta" style="margin-top:10px">
+            <div class="pill">Flutter</div>
+            <div class="pill">API</div>
+            <div class="pill">UI</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CV -->
+   <!--  <section id="cv" class="container" aria-label="CV">
+  <div class="section-inner" style="text-align:center">
+    <h2 class="section-title">My CV</h2>
+     Replace with your CV link 
+    <a class="btn" href="https://drive.google.com/your-cv-link" target="_blank" rel="noopener">Open CV</a>
+  </div>
+</section> -->
+
+<!-- CONTACT -->
+<section id="contact" class="container" aria-label="Contact">
+  <div class="section-inner" style="text-align:center">
+    <h2 class="section-title">Contact</h2>
+
+    <!-- Contact card -->
+    <div class="contact-card" style="display:flex;justify-content:center">
+      <div class="contact-card-inner contact-card" style="padding:16px;border-radius:12px">
+        <div style="font-weight:700;color:var(--accent);margin-bottom:8px">Get in touch</div>
+
+        <!-- Email uses mailto: so it opens email compose (Gmail if user uses Gmail as default) -->
+        <div class="contact-row">
+          <a class="contact-link" href="mailto:humayraasif246@gmail.com?subject=Hello%20Humayra">📧 Email</a>
+          <a class="contact-link" href="https://www.linkedin.com/in/humaira-asif-957664256/" target="_blank" rel="noopener">💼 LinkedIn</a>
+          <a class="contact-link" href="https://github.com/humayra-asif" target="_blank" rel="noopener">💻 GitHub</a>
+          <a class="contact-link" href="https://wa.me/923312308391" target="_blank" rel="noopener">📱 WhatsApp</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">© <span id="year"></span> Code With Humayra — Built with Flutter skills & ❤️</div>
+</footer>
+
+<!-- small script only to set current year (optional, can remove if JS not wanted) -->
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
